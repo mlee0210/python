@@ -15,6 +15,7 @@ Write a function that checks whether a number is in a given range (inclusive of 
 """
 
 def ran_check(num,low,high):
+	#num in range(low, high+1)
 	if low<=num<=high:
 		print(f"{num} is in the range between {low} and {high}")
 	else:
@@ -24,6 +25,7 @@ def ran_check(num,low,high):
 #print(ran_check(5,2,7))
 
 def ran_bool(num,low,high):
+	#num in range(low, high+1)
 	return low<=num<=high
 
 #print(ran_bool(5,2,7))
@@ -43,10 +45,11 @@ def up_low(lst):
 
 	for word in lst:
 		if word.isupper():
-
 			upper_count+=1
 		elif word.islower():
 			lower_count+=1
+		else:
+			pass
 
 	print(f'No. of Upper case characters: {upper_count}')
 	print(f'No. of lower case characters: {lower_count}')
@@ -62,8 +65,10 @@ Sample List : [1,1,1,1,2,2,3,3,3,3,4,5]
 Unique List : [1, 2, 3, 4, 5]
 """
 def unique_list(lst):
+	#one line solution = return list(set(lst))
 	new_list=[]
 	for x in lst:
+		"""
 		if len(new_list) == 0:
 			new_list.append(x)
 		else:
@@ -72,6 +77,9 @@ def unique_list(lst):
 					break
 			else:
 				new_list.append(x)
+		"""
+		if x not in new_list:
+			new_list.append(x)
 	return new_list
 
 
@@ -115,13 +123,21 @@ For example : "The quick brown fox jumps over the lazy dog"
 
 import string
 
-def ispanagram(str1, alphabet=string.ascii_lowercase):
+def ispangram(str1, alphabet=string.ascii_lowercase):
+	#solution when we do not have unique_list() defined
+
+	alphabet_set = set(alphabet)
+	str1_set = set(str1.lower().replace(' ', ''))
+
+	"""
 	sorted_str1 = sorted(str1.lower().replace(' ', ''))
 	unique_str1 = ''.join(unique_list(sorted_str1))
-	
 	return unique_str1 == alphabet
+	"""
 
-print(ispanagram("The quick brown fox jumps over the lazy dog"))
+	return str1_set == alphabet_set
+
+print(ispangram("The quick brown fox jumps over the lazy dog"))
 
 
 

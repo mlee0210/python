@@ -6,16 +6,9 @@ lesser_of_two_evens(2,5) --> 5
 
 def lesser_of_two_evens(num1,num2):
 	if num1%2 == 0 and num2%2 == 0:
-		if num1>num2:
-			return num2
-		else:
-			return num1
+		return min(num1, num2)
 	else:
-		if num1>num2:
-			return num1
-		else:
-			return num2
-
+		return max(num1,num2)
 
 #print(lesser_of_two_evens(2,5))
 
@@ -28,11 +21,7 @@ animal_crackers('Crazy Kangaroo') --> False
 
 def animal_crackers(str):
 	word_list = str.split()
-	if word_list[0][0] == word_list[1][0]:
-		return True
-	else:
-		return False
-
+	return word_list[0][0] == word_list[1][0]
 
 #print(animal_crackers('Crazy Kangaroo'))
 
@@ -43,17 +32,13 @@ makes_twenty(20,10) --> True
 makes_twenty(12,8) --> True
 makes_twenty(2,3) --> False
 """
-def makes_twenty(num1, num2):
-	if num1+num2 == 20 or (num1 == 20 or num2 == 20):
-		return True
-	else:
-		return False
 
+def makes_twenty(num1, num2):
+	return num1+num2 == 20 or num1 == 20 or num2 == 20
 
 #print(makes_twenty(20,10))
 #print(makes_twenty(12,8))
 #print(makes_twenty(2,3))
-
 
 
 """
@@ -62,16 +47,10 @@ old_macdonald('macdonald') --> MacDonald
 """
 
 def old_macdonald(str):
-	str_list = list(str)
-	count = 0
-	for letter in str_list:
-		if count == 0 or count == 3:
-			str_list[count] = letter.capitalize()
-			count+=1
-		else:
-			count+=1
+	first_half = name[:3]
+	second_half = name[3:]
 
-	return ''.join(str_list)
+	return first_half.capitalize() + second_half.capitalize()
 
 #print(old_macdonald('macdonald'))
 
@@ -84,7 +63,7 @@ master_yoda('We are ready') --> 'ready are We'
 
 def master_yoda(str):
 	words = str.split()
-	words.reverse()
+	words.reverse() #or words[::-1]
 	return ' '.join(words)
 
 #print(master_yoda('I am home'))
@@ -99,9 +78,7 @@ almost_there(209) --> True
 """
 
 def almost_there(num):
-	if abs(num-100) <= 10 or abs(num-200) <= 10:
-		return True
-	return False
+	return abs(num-100) <= 10 or abs(num-200) <= 10
 
 #print(almost_there(90))
 #print(almost_there(104))
@@ -118,9 +95,9 @@ has_33([3, 1, 3]) → False
 """
 
 def has_33(mylist):
-	first = mylist.index(3)
-	if mylist[first + 1] == 3:
-		return True
+	for i in range(0,len(mylist)-1):
+		if nums[i] == 3 and nums[i+1] == 3:
+			return True
 	return False
 
 #print(has_33([1,3,3]))
@@ -134,15 +111,11 @@ paper_doll('Hello') --> 'HHHeeellllllooo'
 paper_doll('Mississippi') --> 'MMMiiissssssiiippppppiii'
 """
 
-def paper_doll(str):
-	str_list = list(str)
-	count = 0
-	for x in str_list:
-		print(x)
-		str_list[count] = x*3
-		count+=1
-
-	return ''.join(str_list)
+def paper_doll(text):
+	result = ''
+	for char in text:
+		result += char*3
+	return result
 
 #print(paper_doll('Hello'))
 
@@ -164,7 +137,6 @@ def blackjack(num1,num2,num3):
 	else:
 		return 'BUST'
 
-
 #print(blackjack(5,6,7))
 #print(blackjack(9,9,9))
 #print(blackjack(9,9,11))
@@ -181,21 +153,26 @@ summer_69([2, 1, 6, 9, 11]) --> 14
 """
 
 def summer_69(mylist):
-	sum = 0
-	count = 0
+	total = 0
+	add = True
+	for num in mylist:
+		while add:
+			#print(f'entered while statement, current num: {num}')
+			if num!=6:
+				total += num
+				break
+			else:
+				add = False
+		while not add:
+			#print(f'entered while not statement, current num: {num}')
+			if num!=9:
+				break
+			else:
+				add = True
+				break
+	return total
 
-	for x in mylist:
-		if count >= index_six and count <= index_nine:
-			count+=1
-			continue
-		else:
-			sum+= x
-			count+=1
-
-	return sum
-
-
-#print(summer_69([1,3,6,9]))
+print(summer_69([1, 6, 9, 3]))
 #print(summer_69([1, 3, 5]))
 #print(summer_69([4, 5, 6, 7, 8, 9]))
 #print(summer_69([2, 1, 6, 9, 11]))
@@ -214,9 +191,8 @@ def spy_game(mylist):
 		if x == 0 or x==7:
 			word+=str(x)
 
-	if word == '007':
-		return True
-	return False
+	return word == '007'
+
 
 #print(spy_game([1,2,4,0,0,7,5]))
 #print(spy_game([1,0,2,4,0,5,7]))
@@ -228,19 +204,22 @@ count_primes(100) --> 25
 """
 
 def count_primes(num):
-	x = range(2,num + 1)
-	count = 0
-	for n in x:
-		if(n == 2 or n == 3 or n == 5 or n == 7):
-			count+=1
-			continue
-		if n%2 == 0 or n%3 == 0 or n%5 == 0 or n%7 == 0:
-			continue
-		else:
-			count+=1
-	return count
+    primes = [2]
+    x = 3
+    if num < 2:
+        return 0
+    while x <= num:
+        for y in primes:  # use the primes list!
+            if x%y == 0:
+                x += 2
+                break
+        else:
+            primes.append(x)
+            x += 2
+    print(primes)
+    return len(primes)
 
-#print(count_primes(100))
+print(count_primes(100))
 
 
 
